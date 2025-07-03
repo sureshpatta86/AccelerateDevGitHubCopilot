@@ -61,6 +61,13 @@ Library App is a comprehensive library management system built with .NET that al
           - [ReturnLoan.cs](AccelerateDevGitHubCopilot/tests/UnitTests/ApplicationCore/LoanService/ReturnLoan.cs)
         - PatronService/
           - [RenewMembership.cs](AccelerateDevGitHubCopilot/tests/UnitTests/ApplicationCore/PatronService/RenewMembership.cs)
+      - Infrastructure/
+        - [TestDataFactory.cs](AccelerateDevGitHubCopilot/tests/UnitTests/Infrastructure/TestDataFactory.cs)
+        - Data/
+          - [JsonDataTests.cs](AccelerateDevGitHubCopilot/tests/UnitTests/Infrastructure/Data/JsonDataTests.cs)
+          - [JsonLoanRepositoryTests.cs](AccelerateDevGitHubCopilot/tests/UnitTests/Infrastructure/Data/JsonLoanRepositoryTests.cs)
+          - [JsonPatronRepositoryTests.cs](AccelerateDevGitHubCopilot/tests/UnitTests/Infrastructure/Data/JsonPatronRepositoryTests.cs)
+          - [RepositoryTestBase.cs](AccelerateDevGitHubCopilot/tests/UnitTests/Infrastructure/Data/RepositoryTestBase.cs)
 
 ## Key Classes and Interfaces
 
@@ -88,6 +95,39 @@ Library App is a comprehensive library management system built with .NET that al
 - **[`JsonData`](AccelerateDevGitHubCopilot/src/Library.Infrastructure/Data/JsonData.cs)**  
   Data access layer for JSON file-based storage of library data.
 
+## Testing Architecture
+
+This project implements comprehensive unit testing across both ApplicationCore and Infrastructure layers using **xUnit**, **NSubstitute**, and **Coverlet** for code coverage.
+
+### Test Organization
+
+- **ApplicationCore Tests**: Focus on business logic validation
+  - Service method testing (LoanService, PatronService)
+  - Business rule verification
+  - Mock repository dependencies
+
+- **Infrastructure Tests**: Focus on data access layer validation
+  - Repository operations testing
+  - JSON data loading and saving
+  - Entity relationship population
+  - File I/O operations
+
+### Testing Patterns
+
+- **AAA Pattern**: Arrange-Act-Assert structure for all tests
+- **Factory Pattern**: Consistent test data creation with `TestDataFactory`, `LoanFactory`, and `PatronFactory`
+- **Descriptive Naming**: Clear test method names with `DisplayName` attributes
+- **Isolation**: Each test runs independently with mocked dependencies
+- **Comprehensive Coverage**: Multiple scenarios per method (happy path, edge cases, error conditions)
+
+### Test Statistics
+
+- **Total Tests**: 37 (17 ApplicationCore + 20 Infrastructure)
+- **ApplicationCore Tests**: 17 tests covering LoanService and PatronService
+- **Infrastructure Tests**: 20 tests covering JsonData, JsonPatronRepository, and JsonLoanRepository
+- **Test Execution**: Fast in-memory execution with deterministic results
+- **Coverage Areas**: Business logic, data operations, entity relationships, error handling
+
 ## Usage
 
 1. Clone the repository:
@@ -114,6 +154,37 @@ Library App is a comprehensive library management system built with .NET that al
    ```sh
    dotnet test
    ```
+
+6. Run specific test categories:
+   ```sh
+   # Run only ApplicationCore tests
+   dotnet test --filter "FullyQualifiedName~ApplicationCore"
+   
+   # Run only Infrastructure tests
+   dotnet test --filter "FullyQualifiedName~Infrastructure"
+   ```
+
+7. Generate test coverage report:
+   ```sh
+   dotnet test --collect:"XPlat Code Coverage"
+   ```
+
+## Recent Updates
+
+### Infrastructure Unit Tests (Latest)
+- **Added comprehensive Infrastructure layer testing** with 20 new unit tests
+- **JsonPatronRepository Tests**: 7 tests covering patron search, retrieval, and update operations
+- **JsonLoanRepository Tests**: 6 tests covering loan operations and relationship preservation
+- **JsonData Tests**: 7 tests covering data loading, saving, and entity population
+- **Enhanced test infrastructure** with `TestDataFactory` for consistent test data creation
+- **Improved test coverage** from 17 to 37 total tests, covering both business logic and data access layers
+
+### Key Testing Features Added
+- **Isolation**: Tests run independently with mocked dependencies
+- **File I/O Testing**: Validates JSON serialization/deserialization operations
+- **Relationship Testing**: Ensures entity relationships are properly maintained
+- **Error Handling**: Tests cover missing entities and invalid operations
+- **Performance**: Fast execution with in-memory test data
 
 ## License
 

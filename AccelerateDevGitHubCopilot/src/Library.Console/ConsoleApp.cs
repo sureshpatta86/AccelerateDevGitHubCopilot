@@ -98,11 +98,12 @@ public class ConsoleApp
 
     static void PrintPatronsList(List<Patron> matchingPatrons)
     {
-        int patronNumber = 1;
-        foreach (Patron patron in matchingPatrons)
+        var patronsWithNumbers = matchingPatrons.Select((patron, index) => 
+            $"{index + 1}) {patron.Name}");
+        
+        foreach (var patron in patronsWithNumbers)
         {
-            Console.WriteLine($"{patronNumber}) {patron.Name}");
-            patronNumber++;
+            Console.WriteLine(patron);
         }
     }
 
@@ -205,11 +206,13 @@ public class ConsoleApp
         Console.WriteLine($"Membership Expiration: {selectedPatronDetails.MembershipEnd}");
         Console.WriteLine();
         Console.WriteLine("Book Loans:");
-        int loanNumber = 1;
-        foreach (Loan loan in selectedPatronDetails.Loans)
+        
+        var loansWithNumbers = selectedPatronDetails.Loans.Select((loan, index) => 
+            $"{index + 1}) {loan.BookItem!.Book!.Title} - Due: {loan.DueDate} - Returned: {(loan.ReturnDate != null).ToString()}");
+        
+        foreach (var loanInfo in loansWithNumbers)
         {
-            Console.WriteLine($"{loanNumber}) {loan.BookItem!.Book!.Title} - Due: {loan.DueDate} - Returned: {(loan.ReturnDate != null).ToString()}");
-            loanNumber++;
+            Console.WriteLine(loanInfo);
         }
 
         CommonActions options = CommonActions.SearchPatrons | CommonActions.Quit | CommonActions.Select | CommonActions.RenewPatronMembership | CommonActions.SearchBooks;

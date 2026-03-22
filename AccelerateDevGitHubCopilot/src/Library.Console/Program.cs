@@ -1,26 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Library.Infrastructure.Data;
-using Library.ApplicationCore;
-using Microsoft.Extensions.Configuration;
-
-var services = new ServiceCollection();
-
-var configuration = new ConfigurationBuilder()
-.SetBasePath(Directory.GetCurrentDirectory())
-.AddJsonFile("appSettings.json")
-.Build();
-
-services.AddSingleton<IConfiguration>(configuration);
-
-services.AddScoped<IPatronRepository, JsonPatronRepository>();
-services.AddScoped<ILoanRepository, JsonLoanRepository>();
-services.AddScoped<ILoanService, LoanService>();
-services.AddScoped<IPatronService, PatronService>();
-
-services.AddSingleton<JsonData>();
-services.AddSingleton<ConsoleApp>();
-
-var servicesProvider = services.BuildServiceProvider();
-
-var consoleApp = servicesProvider.GetRequiredService<ConsoleApp>();
-consoleApp.Run().Wait();
+--- a/AccelerateDevGitHubCopilot/src/Library.Console/Program.cs
++++ b/AccelerateDevGitHubCopilot/src/Library.Console/Program.cs
+@@ -1,6 +1,10 @@
+ using Microsoft.Extensions.DependencyInjection;
+ using Library.Infrastructure.Data;
+ using Library.ApplicationCore;
++using Microsoft.AspNetCore.Builder;
+ using Microsoft.Extensions.Configuration;
+ 
++// Ensure HTTPS redirection is configured in the web application startup
++// Example for ASP.NET Core application:
++// var app = builder.Build();
++// app.UseHttpsRedirection();
+ 
+ var services = new ServiceCollection();
